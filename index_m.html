@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>欧洲杯智能平台_新浪彩通</title>
+	<link rel="import" href="h/commonHead.html?__inline">
+	<link rel="stylesheet" href="./l/common.less">
+	<link rel="stylesheet" href="./l/index_m.less">
+</head>
+
+<body>
+  <link rel="import" href="h/header.html?__inline">
+  <div id="wrap">
+    <nav>
+      <div id="nav">
+        <a href="http://euro.sina.cn/lottery/">首页</a><!-- 保留
+      --><span class="selected" data-gametype="z_sx">亚盘</span><!--
+      --><span data-gametype="z_spf">胜平负</span><!--
+      --><span data-gametype="z_dx">大小球</span>
+      </div>
+    </nav>
+    <div class="m_smart" >
+      <div class="m_smart_match">
+        <div class="m_sm">
+          <div class="m_sm_list" id="m_match_list">
+          <script type="text/html" id="m_match_tmp">
+            {{each data as value index}}  
+            <div class="m_sm_item" data-idx="{{index}}" data-mid="{{value.odds_id}}">
+              <a class="m_sm_item_name" href="javascript:;" data-idx="{{index}}">{{value.Team1}}VS{{value.Team2}}</a>
+              <span class="m_sm_item_line"></span>
+            </div>
+            {{/each}}
+          </script>
+          </div>
+        </div>
+        <div class="m_sm_shadow"></div>
+        <div class="m_sm_date" id="smart_head_date">
+          <div class="m_sm_date_icon"></div>
+          <div class="input-group date">
+            <input type="hidden" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+          </div>
+        </div>
+      </div>
+      <link rel="import" href="h/pay_m.html?__inline">
+    </div>
+    <!-- 实力分析 -->
+    <section class="m_module">
+      <div class="m_mod_head">
+        <div class="m_mod_tit">实力分析</div>
+        <a href="javascript:;" class="m_mod_more" id="linkMD">查看数据分析</a>
+      </div>
+      <div class="m_mod_main">
+        <div class="m_line"></div>
+        <div class="smart_chart_a1">
+          <script type="text/html" id="smart_chart_a1_tmp">
+            <div id="chart_radar_a1_{{idx}}" class="chart_radar_a1" style="width: 100%;height:220px;">
+            </div>
+          </script>
+        </div>
+      </div>
+    </section>
+    <!-- 交战历史 -->
+    <section class="m_module">
+      <div class="m_mod_head">
+        <div class="m_mod_tit">交战历史</div>
+      </div>
+      <div class="m_mod_main">
+        <div class="smart_chart_a2">
+          <script type="text/html" id="smart_chart_a2_tmp">
+            <div id="chart_pie_a2_{{idx}}" class="chart_pie_a2" style="width: 100%;height:150px;">
+            </div>
+            <div class="smart_chart_a2_num">
+              近<em>{{data.count}}</em>次
+            </div>
+            <div class="smart_chart_a2_info">
+              <div class="smart_chart_a2_head">
+                <span class="sa2_name">{{data.Team1}}</span>
+                <span class="sa2_win">{{data.Team1Win}}</span>胜
+                <span class="sa2_lose">{{data.Team1Lose}}</span>负
+                <span class="sa2_equel">{{data.Team1Draw}}</span>平
+              </div>
+              <div class="smart_chart_a2_detail">
+                进{{data.Team1Goal}}球 失{{data.Team1LoseGoal}}球 赢盘率{{data.panlu_percent}}%
+              </div>
+            </div>
+          </script>
+        </div>
+        <div class="m_mod_box">
+          <div class="smart_trend_mod smart_chart_a3">
+            <script type="text/html" id="smart_chart_a3_tmp">
+              <div class="smart_trend_title">
+                <em>{{data.Team1}}</em>走势
+              </div>
+              <div id="chart_pie_a3_{{idx}}" class="chart_pie_a3" style="width: 100%;height:140px;">
+                
+              </div>
+              <div class="smart_trend_ititle">赢盘率</div>
+              <div class="smart_trend_percent">
+                <em>{{data.win_percent}}</em>%
+              </div>
+              <div class="smart_trend_txt">
+                <span>{{trend(data.data)}}
+              </div>
+            </script>
+          </div>
+          <div class="smart_trend_mod smart_chart_a4">
+            <script type="text/html" id="smart_chart_a4_tmp">
+              <div class="smart_trend_title">
+                <em>{{data.Team1}}</em>走势
+              </div>
+              <div id="chart_pie_a4_{{idx}}" class="chart_pie_a4" style="width: 100%;height:140px;">
+                
+              </div>
+              <div class="smart_trend_ititle">赢盘率</div>
+              <div class="smart_trend_percent">
+                <em>{{data.win_percent}}</em>%
+              </div>
+              <div class="smart_trend_txt">
+                <span>{{trend(data.data)}}
+              </div>
+            </script>
+          </div>
+          <div class="m_line_v"></div>
+        </div>
+      </div>
+    </section>
+    <!-- 专家预测 -->
+    <section class="m_forecast">
+      <script type="text/html" id="smart_forecast_tmp">
+        <div class="m_forecast_head">
+          <em class="m_forecast_tit">专家预测</em>
+          本场参加预测的特约专家 <span class="m_ft">{{ total }}</span> 名（<span class="m_ft1">{{ stats["3"] }}</span>胜 <span class="m_ft1">{{ stats["1"] }}</span>负 <span class="m_ft1">{{ stats["2"] }}</span>平）
+        </div>
+        <div class="m_forecast_main">
+          <div class="sf_percent sf_win">
+            <div class="sfp_l">
+              胜
+            </div>
+            <div class="sfp_c">
+              <div class="sfp_cp" style="width:{{ percent(stats['3']) }}"></div>
+            </div>
+            <div class="sfp_r">
+              <em class="sfp_rn">{{ stats['3'] }}</em>／{{ total }}
+            </div>
+          </div>
+          <div class="sf_percent sf_lose">
+            <div class="sfp_l">
+              负
+            </div>
+            <div class="sfp_c">
+              <div class="sfp_cp" style="width:{{ percent(stats['1']) }}"></div>
+            </div>
+            <div class="sfp_r">
+              <em class="sfp_rn">{{ stats['1'] }}</em>／{{ total }}
+            </div>
+          </div>
+          <div class="sf_percent sf_equal">
+            <div class="sfp_l">
+              平
+            </div>
+            <div class="sfp_c">
+              <div class="sfp_cp" style="width:{{ percent(stats['2']) }}"></div>
+            </div>
+            <div class="sfp_r">
+              <em class="sfp_rn">{{ stats['2'] }}</em>／{{ total }}
+            </div>
+          </div>
+        </div>
+        <div class="prophesy">
+          <div class="prophesy_head">
+            <div class="prophesy_t1">
+              专<br>家
+            </div>
+            <div class="prophesy_t2">
+              总<br>战<br>绩
+            </div>
+            <div class="prophesy_t3">
+              状<br>态
+            </div>
+            <div class="prophesy_t4">
+              推<br>荐
+            </div>
+          </div>
+          <div class="prophesy_main">
+            <div class="prophesy_content" style="width:{{ width(total) }}">
+              {{each data as value index}}
+                <div class="prophesy_item">
+                  <div class="prophesy_item_m1">
+                    <div class="prophesy_portrait">
+                      <img src="{{value.photo}}" alt="{{value.photo}}">
+                    </div>
+                    <div class="prophesy_name">{{value.name}}</div>
+                  </div>
+                   <div class="prophesy_item_m2">
+                          {{value.total}}中{{value.right}}
+                          <span>｜</span>
+                          {{if value.total==0}}
+                          <em>%</em>
+                          {{else}}
+                          <em>{{percent1(value.right,value.total)}}</em>
+                          {{/if}}
+                    </div>
+                  <div class="prophesy_item_m3">
+                    {{value.recent_total}}中{{value.recent_right}}
+                  </div>
+                  <div title="{{value.rmd_content}}" class="prophesy_item_m4 {{value.rmd_content_class}}">
+                    {{value.rmd_content1}}
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </script>
+    </section>
+    <!-- 微博指数 -->
+    <section class="m_module none">
+      <div class="m_mod_head">
+        <div class="m_mod_tit">微博指数</div>
+      </div>
+      <div class="m_mod_main">
+        <div class="smart_hot">
+          <script type="text/html" id="smart_chart_a5_tmp">
+            <div id="chart_dataZoom_a5_{{idx}}" class="chart_dataZoom_a5" style="width: 100%;height:300px;">
+            </div>
+          </script>
+        </div>
+      </div>
+    </section>
+    <!-- 新浪微博 -->
+    <section class="m_module none">
+      <div class="m_mod_head">
+        <div class="m_mod_tit">新浪微博</div>
+      </div>
+      <div class="m_mod_main" style="height: 100px; text-align: center; line-height: 100px;">
+        新浪微博占位
+      </div>
+    </section>
+  </div>
+
+  <div id="scrollTop"></div>
+  <!-- 弹出层 html start -->
+  <link rel="import" href="h/popup.html?__inline">
+  <!-- 弹出层 html end -->
+  
+  <link rel="import" href="h/footer.html?__inline">
+  <script src="./j/lib/jquery-2.2.4.min.js"></script>
+  <script type="text/javascript" src="http://i.sso.sina.com.cn/js/ssologin.js"></script>
+  <script type="text/javascript" src="http://i.sso.sina.com.cn/js/outlogin_layer_mobile.js" charset="utf-8"></script>
+  <script src="./j/lib/common.js"></script>
+
+  <script type="text/javascript" src="./j/lib/template.js"></script>
+  <script type="text/javascript" src="./j/lib/echarts.min.js"></script>
+  <script src="./j/lib/swiper.min.js"></script>
+  <script src="./j/index_m.js"></script>
+</body>
+</html>

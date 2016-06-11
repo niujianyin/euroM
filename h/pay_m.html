@@ -1,0 +1,381 @@
+<div class="smart_match" id="smart_match">
+  <script type="text/html" id="smart_match_tmp">
+    <div class="smart_mh">
+      <div class="smart_mh_flag">
+        <img src="{{ data.Flag1}}" alt="{{data.Team1}}">
+      </div>
+      <div class="smart_mh_right">
+        <div class="smart_mh_name" id="smart_mh_name_{{data.livecast_id}}">{{data.Team1}}</div>
+      </div>
+    </div>
+    <div class="smart_mg">
+      <div class="smart_mg_flag">
+        <img src="{{ data.Flag2}}" alt="{{data.Team2}}">
+      </div>
+      <div class="smart_mg_right">
+        <div class="smart_mg_name" id="smart_mg_name_{{data.livecast_id}}">{{data.Team2}}</div>
+      </div>
+    </div>
+    <div class="smart_mc" id="smart_{{data.livecast_id}}" data-idx={{data.idx}}>
+    </div>
+  </script>
+</div>
+<!-- 赛前 上下盘（亚盘）预测z_sx -->
+<script type="text/html" id="smart_match_pre_z_sx_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">赔率</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">赔率</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou="{{data.odds.o3}}"></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_sx_no_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">赔率</span> 暂无
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">赔率</span> 暂无
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：暂无
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase_no" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou="{{data.odds.o3}}"></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_sx_haspay_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">赔率</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">赔率</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    {{ if data.nodata}}
+      <div class="smart_percent_nodata">{{data.nodata}}</div>
+    {{ else }}
+      <div class="per1"></div>
+      <div class="per2" style="width:{{data.pw}}"></div>
+    {{/if}}
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">赢盘</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">输盘</span>
+    </div>
+  </div>
+</script>
+<!-- 赛中 上下盘预测z_sx -->
+<script type="text/html" id="smart_match_in_z_sx_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">赔率</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">赔率</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_score">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+    <span class="smart_mc_datetime_line"></span>
+    <span class="smart_mc_datetime_icon"></span>
+    <span class="smart_mc_datetime">{{data.time}}</span>
+  </div>
+
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per2" style="width:{{data.pw}}"></div>
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">赢盘</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">输盘</span>
+    </div>
+  </div>
+</script>
+<!-- 赛后 上下盘预测z_sx -->
+<script type="text/html" id="smart_match_end_z_sx_tmp">
+  <div class="smart_mc_judge {{data.forecast}}"></div>
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">赔率</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">赔率</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_score smart_mc_score_end">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+  </div>
+
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per2" style="width:{{data.pw}}"></div>
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">赢盘</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">输盘</span>
+    </div>
+  </div>
+</script>
+
+
+<!-- 赛前 胜平负预测z_spf -->
+<script type="text/html" id="smart_match_pre_z_spf_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">胜赔</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">负赔</span> {{data.odds.o3}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    平赔：<span class="smart_mc_type">{{data.odds.o2}}</span>
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou=""></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_spf_no_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">胜赔</span> 暂无
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">负赔</span> 暂无
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    平赔：暂无
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase_no" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou="{{data.odds.o3}}"></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_spf_haspay_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">胜赔</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">负赔</span> {{data.odds.o3}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box smart_mc_type_spf" id="smart_type_{{data.livecast_id}}">
+    平赔：<span class="smart_mc_type">{{data.odds.o2}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    {{ if data.nodata}}
+      <div class="smart_percent_nodata">{{data.nodata}}</div>
+    {{ else }}
+      <div class="per1"></div>
+      <div class="per3" style="width:{{data.pw}}"></div>
+      <div class="per4" style="width:{{data.pw1}}"></div>
+    {{/if}}
+  </div>
+  <div class="smart_spf_info">        
+    <div class="smart_spf_win"><em>{{data.per1}}</em>胜</div>        
+    <div class="smart_spf_draw"><em>{{data.per2}}</em>平</div>        
+    <div class="smart_spf_lose"><em>{{data.per3}}</em>负</div>      
+  </div>
+</script>
+<!-- 赛中 胜平负预测z_spf -->
+<script type="text/html" id="smart_match_in_z_spf_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">胜赔</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">负赔</span> {{data.odds.o3}}
+  </div>
+  <div class="smart_mc_score">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+    <span class="smart_mc_datetime_line"></span>
+    <span class="smart_mc_datetime_icon"></span>
+    <span class="smart_mc_datetime">{{data.time}}</span>
+  </div>
+  <div class="smart_mc_type_box smart_mc_type_spf" id="smart_type_{{data.livecast_id}}">
+    平赔：<span class="smart_mc_type">{{data.odds.o2}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per3" style="width:{{data.pw}}"></div>
+    <div class="per4" style="width:{{data.pw1}}"></div>
+  </div>
+  <div class="smart_spf_info">        
+    <div class="smart_spf_win"><em>{{data.per1}}</em>胜</div>        
+    <div class="smart_spf_draw"><em>{{data.per2}}</em>平</div>        
+    <div class="smart_spf_lose"><em>{{data.per3}}</em>负</div>      
+  </div>
+</script>
+<!-- 赛后 胜平负预测z_spf -->
+<script type="text/html" id="smart_match_end_z_spf_tmp">
+  <div class="smart_mc_judge {{data.forecast}}"></div>
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">胜赔</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">负赔</span> {{data.odds.o3}}
+  </div>
+  <div class="smart_mc_score smart_mc_score_end">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+  </div>
+  <div class="smart_mc_type_box smart_mc_type_spf" id="smart_type_{{data.livecast_id}}">
+    平赔：<span class="smart_mc_type">{{data.odds.o2}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per3" style="width:{{data.pw}}"></div>
+    <div class="per4" style="width:{{data.pw1}}"></div>
+  </div>
+  <div class="smart_spf_info">        
+    <div class="smart_spf_win"><em>{{data.per1}}</em>胜</div>        
+    <div class="smart_spf_draw"><em>{{data.per2}}</em>平</div>        
+    <div class="smart_spf_lose"><em>{{data.per3}}</em>负</div>      
+  </div>
+</script>
+
+
+<!-- 赛前 大小球预测z_dx -->
+<script type="text/html" id="smart_match_pre_z_dx_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">大球</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">小球</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou="{{data.odds.o3}}"></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_dx_no_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">大球</span> 暂无
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">小球</span> 暂无
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：暂无
+  </div>
+  <div class="smart_purchase" id="smart_get_{{data.livecast_id}}">
+    <a href="javascript:;" class="btn_purchase_no" id="smart_purchase_{{data.livecast_id}}" data-id="{{data.livecast_id}}" data-pankou="{{data.odds.o3}}"></a>
+  </div>
+</script>
+<script type="text/html" id="smart_match_pre_z_dx_haspay_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">大球</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">小球</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_date" id="smart_mc_date_{{data.livecast_id}}">{{data.date}} <span class="plr6"></span>{{data.time}}</div>
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    {{ if data.nodata}}
+      <div class="smart_percent_nodata">{{data.nodata}}</div>
+    {{ else }}
+      <div class="per1"></div>
+      <div class="per2" style="width:{{data.pw}}"></div>
+    {{/if}}
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">大球</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">小球</span>
+    </div>
+  </div>
+</script>
+<!-- 赛中 大小球预测z_dx -->
+<script type="text/html" id="smart_match_in_z_dx_tmp">
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">大球</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">小球</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_score">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+    <span class="smart_mc_datetime_line"></span>
+    <span class="smart_mc_datetime_icon"></span>
+    <span class="smart_mc_datetime">{{data.time}}</span>
+  </div>
+
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per2" style="width:{{data.pw}}"></div>
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">大球</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">小球</span>
+    </div>
+  </div>
+</script>
+<!-- 赛后 大小球预测z_dx -->
+<script type="text/html" id="smart_match_end_z_dx_tmp">
+  <div class="smart_mc_judge {{data.forecast}}"></div>
+  <div class="smart_mh_odds">
+    <span class="smart_mh_odds_txt">大球</span> {{data.odds.o1}}
+  </div>
+  <div class="smart_mg_odds">
+    <span class="smart_mg_odds_txt">小球</span> {{data.odds.o2}}
+  </div>
+  <div class="smart_mc_score smart_mc_score_end">
+    <span class="smart_mc_score_icon"></span>
+    <span class="smart_mc_score_txt">{{data.hscore}} : {{data.gscore}}</span>
+  </div>
+
+  <div class="smart_mc_type_box" id="smart_type_{{data.livecast_id}}">
+    盘口：<span class="smart_mc_type">{{data.odds.o3_cn}}</span>
+  </div>
+  <div class="smart_percent" id="smart_data_{{data.livecast_id}}">
+    <div class="per1"></div>
+    <div class="per2" style="width:{{data.pw}}"></div>
+  </div>
+  <div class="smart_p_num">
+    <div class="smart_score_home">
+      {{data.per1}}<span class="smart_score_txt">大球</span>
+    </div>
+    <div class="smart_score_guest">
+      {{data.per3}}<span class="smart_score_txt">小球</span>
+    </div>
+  </div>
+</script>

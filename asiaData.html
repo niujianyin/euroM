@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>欧洲杯智能平台_新浪彩通</title>
+	<link rel="import" href="h/commonHead.html?__inline">
+	<link rel="stylesheet" href="./l/common.less">
+	<link rel="stylesheet" href="./l/watchData.less">
+</head>
+
+<body>
+	<!--头部-->
+	<link rel="import" href="h/header.html?__inline">
+	<link rel="import" href="h/dataHeader.html?__inline">
+	<link rel="import" href="h/pay_data.html?__inline">
+	<!--主体内容 start-->
+	<div class="e_main wrap d_lineBorder">
+		<div class="d_lineHeader">
+			<span>动态亚盘</span>
+		</div>
+		<div class="e_chooseBox clearfix">
+			<div class="e_checkBox">
+				<input type="radio" name="asiaData" checked="checked">
+				<label>全部公司</label>
+				<input type="radio" name="asiaData">
+				<label>主流公司</label>
+				<input type="radio" name="asiaData">
+				<label>交易所</label>
+				<input type="radio" name="asiaData">
+				<label>非交易所</label>
+			</div>
+			<div class="e_chooseInfo clearfix">
+				<div class="e_chooseL">注：</div>
+				<div class="e_chooseR">
+					<span class="e_infoRed">红色表示水位上升</span>，<em class="e_infoBlue">蓝色表示水位下降</em>，点击<em class="e_infoBlue">盘口</em>查看变化过程
+				</div>
+			</div>
+		</div>
+
+		<div id="e_dataTableBox">
+			<script id="temp_asia" type="text/html">
+				<table class="e_dataTable" id="a_dataTable">
+					<tbody>
+						<tr>
+							<th colspan="2">赔率</th>
+							<th>主队贴水</th>
+							<th>及时盘</th>
+							<th>客队贴水</th>
+							<th>变盘时间</th>
+							<th>主队贴水</th>
+							<th>及时盘</th>
+							<th>客队贴水</th>
+							<th>初盘时间</th>
+						</tr>
+						{{each data as value index}}
+						<tr class="a_tr if_exchange{{value.if_exchange}} if_famous{{value.if_famous}}" id="{{value.id}}">
+							<td class="e_dataStar"></td>
+							<td class="e_dataName e_borderRight">{{value.name}}</td>
+							{{if value.new.o1 -0 > value.ini.o1 -0}}
+							<td class="e_infoRed "> {{value.new.o1}}<img src="http://n.sinaimg.cn/sports/lotteuro2016/wap/i/icon_smallarrow.png" class="smallArrow"></td>
+							{{else if value.new.o1 -0
+							< value.ini.o1 -0 }} <td class=" e_infoBlue ">{{value.new.o1}}<img src="http://n.sinaimg.cn/sports/lotteuro2016/wap/i/icon_smallarrow1.png" class="smallArrow"></td>
+								{{else if value.new.o1-0 == value.ini.o1-0 }}
+								<td class=" ">{{value.new.o1}}</td>
+								{{/if}}
+								<td class="e_dataBlue">{{value.new.o3}}</td>
+								{{if value.new.o2 -0 > value.ini.o2 -0}}
+								<td class="e_infoRed "> {{value.new.o2}}<img src="http://n.sinaimg.cn/sports/lotteuro2016/wap/i/icon_smallarrow.png" class="smallArrow"></td>
+								{{else if value.new.o2-0
+								< value.ini.o2 -0 }} <td class=" e_infoBlue ">{{value.new.o2}}<img src="http://n.sinaimg.cn/sports/lotteuro2016/wap/i/icon_smallarrow1.png" class="smallArrow"></td>
+									{{else if value.new.o2 - 0 == value.ini.o2 -0 }}
+									<td class=" ">{{value.new.o2}}</td>
+									{{/if}}
+									<td class="e_borderLeft">{{value.new.change_time}}</td>
+									<td class="e_dataRed">{{value.ini.o1}}</td>
+									<td class="e_dataBlue">{{value.ini.o3}}</td>
+									<td>{{value.ini.o2}}</td>
+									<td>{{value.ini.change_time}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</script>
+		</div>
+		<input type="hidden" name="otherData" id="i_asiaData" />
+	</div>
+	<!--主体内容 end-->
+	<!-- 弹出层 -->
+	<div class="e_popip">
+		<div class="e_pop_tit"><span></span></div>
+		<div class="e_pop_wrap">
+			<table class="e_pop_table" id="a_pop_table">
+				<tr>
+					<th>水位</th>
+					<th>亚指</th>
+					<th>水位</th>
+					<th>更新时间</th>
+				</tr>
+				<tbody class="e_pop_tbody" id="a_pop_tbody">
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!--底部-->
+	<div id="mask"></div>
+	<link rel="import" href="h/footer.html?__inline">
+	<script src="./j/lib/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="http://i.sso.sina.com.cn/js/ssologin.js"></script>
+	<script type="text/javascript" src="http://i.sso.sina.com.cn/js/outlogin_layer_mobile.js" charset="utf-8"></script>
+	<script src="./j/lib/common.js"></script>
+
+	<script type="text/javascript" src="./j/lib/template.js"></script>
+	<script type="text/javascript" src="./j/lib/echarts.min.js"></script>
+
+	<script src="./j/asia_main.js"></script>
+</body>
+
+</html>
