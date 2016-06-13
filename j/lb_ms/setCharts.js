@@ -54,7 +54,7 @@ var setCharts=(function(){
 						max: maxval[1]
 					},
 					{
-						name: '成功率',
+						name: '传球成功率',
 						max: maxval[2]
 					},
 					{

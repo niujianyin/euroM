@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>test</title>
+  <meta charset="utf-8">
+  <meta name="author" content="新浪爱彩"/>
+  <meta name="keywords" content="NBA,体育彩票,体彩,NBA预测,NBA分析,预测,分析。"/>
+  <meta name="description" content="新浪彩通NBA智能结果预测采用大数据和模型算法，对今天进行的NBA赛事的胜负进行分析，提供基于基本面、赔率面和数据面的全面参考。"/>
+  
+  <!-- Mobile Devices Support @begin -->
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0,width=device-width">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="msapplication-tap-highlight" content="no"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="browsermode" content="application"/>
+  <meta name="x5-page-mode" content="default|app" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="x5-orientation" content="portrait" />
+  <!-- Mobile Devices Support @end -->
+</head>
+<body>
+  <div style="height: 30px; width:300px; border: 1px solid #ccc;" id="login">
+    登录
+  </div>
+  <div style="height: 30px; width:300px; border: 1px solid #ccc;" id="loginBox">
+    登录1
+  </div>
+  <div style="height: 30px; width:300px; border: 1px solid #ccc;" id="loginImg">
+    登录2
+  </div>
+
+  <div style="height: 30px; width:300px; border: 1px solid #ccc;" id="userImage">
+    登录2
+  </div>
+  <a style=" display: block; height: 30px; width:300px; border: 1px solid #ccc;" id="footer_entry">
+    退出11
+  </a>
+
+  <script type="text/javascript">
+    //公共全局配置文件
+    var globalConfig = {
+      startTime : new Date().getTime(), //页面开始渲染时间 ， 目前应用于：日志统计、性能统计。
+      isLogin     :   false
+    }
+  </script>
+  <script src="../j/zepto.js"></script>
+  <script src="http://mjs.sinaimg.cn/wap/public/suda/201601071000/suda_log.min.js"></script>
+  <script src="http://i.sso.sina.com.cn/js/outlogin_layer_mobile.js"></script>
+  <!-- // <script src="http://mjs.sinaimg.cn/wap/module/share/201507071535/js/waplogin.min.js"></script> -->
+  <script src="../j/waplogin.min.js"></script>
+  <script type="text/javascript">
+    var isLogin = checkLogin();  //判断登录状态，登录下返回true,未登录返回false   
+    console.log(isLogin);
+    var oLogin = (typeof(WapLogin)== 'function') ?(new WapLogin()):this; //创建登录对象
+    $("#login").on('tap', function(){
+      oLogin.login (false,function(rs){     
+        //未登录状态下在click    tap等事件中弹出登录浮层
+        //登录成功的回调，rs 用户信息
+        // console.log(rs);
+      });
+    });
+  </script>
+     
+  
+  
+</body>
+</html>

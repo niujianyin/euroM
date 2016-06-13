@@ -1126,18 +1126,21 @@ function render_smart_end(data, isShow){
   // 'SPFwinPro' :0.35, //'胜平负胜率'
   // 'SPFdrawPro' :0.35,//'胜平负平率'
   // 'SPFlosePro' :0.35, //'胜平负负率'
-  // "ULforecastResult":1, //0（未给出结果），2（错），1（准）
-  // "SPFforecastResult":2, //0（未给出结果），2（错），1（准）
-  // "DXforecastResult":1, //0（未给出结果），2（错），1（准）
+  // "ULforecastResult":1, //0（未给出结果），2（错），1（准）3(走)
+  // "SPFforecastResult":2, //0（未给出结果），2（错），1（准）3(走)
+  // "DXforecastResult":1, //0（未给出结果），2（错），1（准）3(走)
   // "matchStatus":3  //1(未赛)，2（赛中），3（完赛）
   var per1,per2,per3,pankou,forecast;
-  var FORECASTRESULT = ['','smart_mc_win','smart_mc_lose'];
+  var FORECASTRESULT = ['','smart_mc_win','smart_mc_lose','smart_mc_zou'];
   if(gameType == 'z_sx'){
     per1 = Math.round((rdata.upperTapePro-0)*100);
     per2 = '';
     per3 = Math.round((rdata.lowTapePro-0)*100);
     pankou = rdata.ULTape;
     forecast = FORECASTRESULT[rdata.ULforecastResult];
+    // if(matchId == '139180' || matchId == '139181'){
+    //   forecast = 'smart_mc_zou';
+    // }
   } else if(gameType == 'z_spf'){
     per1 = Math.round((rdata.SPFwinPro-0)*100);
     per2 = Math.round((rdata.SPFdrawPro-0)*100);

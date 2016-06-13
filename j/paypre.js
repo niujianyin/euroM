@@ -29,7 +29,7 @@
   });
   $("#mask").on('click', function(event) {
     // 隐藏弹出层
-    popup.fadeIn();
+    $('#pre_popup').hide();
     popupHide();
   });
   

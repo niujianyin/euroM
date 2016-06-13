@@ -439,7 +439,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
         tooltip: {
           trigger: 'item',
           formatter: function (params) {
-            var indicatorNames = ['运气值','射正率','成功率','被侵犯率','得牌率'];
+            var indicatorNames = ['运气值','射正率','传球成功率','被侵犯率','得牌率'];
             var datas = params.value, result = params.name;
             for(var i=0,len=datas.length; i<len; i++){
               result += '<br /> '+indicatorNames[i] +':'+datas[i]+'%';
@@ -457,7 +457,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
           indicator: [
             { name: '运气值', max: maxval[0]},
             { name: '射正率', max: maxval[1]},
-            { name: '成功率', max: maxval[2]},
+            { name: '传球成功率', max: maxval[2]},
             { name: '被侵犯率', max: maxval[3]},
             { name: '得牌率', max: maxval[4]}
           ],
@@ -1085,7 +1085,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       self.getdata_a3(idx);
       self.getdata_a4(idx);
       
-      self.getdata_a5(idx);
+      // self.getdata_a5(idx);
       self.getdata_forecast(idx);
     }
   }
@@ -1100,18 +1100,19 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       var currenttime = (new Date()).getTime();
       var data;
       if(currenttime - expiretime < expire){
-        data = euro.get("data");
-        match_num = data.length;
-        match_data.data = data;
-        self.render();
-        return;
+        // data = euro.get("data");
+        // match_num = data.length;
+        // match_data.data = data;
+        // self.render();
+        // return;
       }
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=livecast&_sport_a_=dateMatches&LeagueType=9&begin='+curdate+'&end='+curdate,
+        // url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=livecast&_sport_a_=dateMatches&LeagueType=9&begin='+curdate+'&end='+curdate,
+        url:'http://odds.sports.sina.com.cn/fbmatch/dayMapMatches?date='+curdate+'&timespan=0&format=json',
         dataType:'jsonp',
         data: {},
         cache: true,
-        jsonpCallback:"livecast",
+        jsonpCallback:"dayMapMatches",
         type:"get",
         success: function(data) {
           var result = data.result;
@@ -1184,54 +1185,18 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
 		  $('#smart_head_date').find('.form-control').val(nowDate);
 		  $('#smart_head_date .input-group.date').datepicker({
 		    format: "yyyy/mm/dd",
-		    startDate: "'2016-06-11'",
-		    endDate: "'2016-07-11'",
-		    // todayBtn: "linked",
-		    language: "zh-CN",
-		    orientation: "bottom auto",
-		    autoclose: true,
-		    todayHighlight: true,
-		    datesDisabled:['2016-06-24','2016-06-29','2016-06-30','2016-07-09','2016-07-10']
-		  }).on('changeDate', function(ev){
+        startDate: "2016-06-10",
+        endDate: "2016-07-10",
+        // todayBtn: "linked",
+        language: "zh-CN",
+        orientation: "bottom auto",
+        autoclose: true,
+        todayHighlight: true,
+        datesDisabled:['2016-06-23','2016-06-24','2016-06-28','2016-06-29','2016-07-04','2016-07-05','2016-07-08','2016-07-09']
+      }).on('changeDate', function(ev){
 		    // alert(util.dateFormatFmt( new Date(ev.date), "yyyy-MM-dd"));
 		    var selecteddate = util.dateFormatFmt( new Date(ev.date), "yyyy-MM-dd");
-		    // var matchdate = {
-		    //   '2016-06-11':'2016-06-11',
-		    //   '2016-06-12':'2016-06-12',
-		    //   '2016-06-13':'2016-06-13',
-		    //   '2016-06-14':'2016-06-14',
-		    //   '2016-06-15':'2016-06-15',
-		    //   '2016-06-16':'2016-06-16',
-		    //   '2016-06-17':'2016-06-17',
-		    //   '2016-06-18':'2016-06-18',
-		    //   '2016-06-19':'2016-06-19',
-		    //   '2016-06-20':'2016-06-20',
-		    //   '2016-06-21':'2016-06-21',
-		    //   '2016-06-22':'2016-06-22',
-		    //   '2016-06-23':'2016-06-23',
-
-		    //   '2016-06-24':'2016-06-25',
-
-		    //   '2016-06-25':'2016-06-25',
-		    //   '2016-06-26':'2016-06-26',
-		    //   '2016-06-27':'2016-06-27',
-		    //   '2016-06-28':'2016-06-28',
-
-		    //   '2016-06-29':'2016-07-01',
-		    //   '2016-06-30':'2016-07-01',
-
-		    //   '2016-07-01':'2016-07-01',
-		    //   '2016-07-02':'2016-07-02',
-		    //   '2016-07-03':'2016-07-03',
-		    //   '2016-07-04':'2016-07-04',
-		    //   '2016-07-07':'2016-07-07',
-		    //   '2016-07-08':'2016-07-08',
-
-		    //   '2016-07-09':'2016-07-11',
-		    //   '2016-07-10':'2016-07-11',
-
-		    //   '2016-07-11':'2016-07-11'
-		    // }
+		    
         var homeurl = 'http://odds.sports.sina.com.cn/uefa/mtop/?m_id='+mid+'&curdate=';
         if(util.debug){
           homeurl= './index_m.html?m_id='+mid+'curdate='
