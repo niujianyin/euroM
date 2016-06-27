@@ -82,6 +82,9 @@ $(function () {
         writeHtml += '<option value="' + j + '">' + j + '</option>';
       }
       $(".d_l2_select").html(writeHtml).find('option:last').attr("selected", "selected");
+      if(!!!data.count){
+        $(".d_line2Box").hide();
+      }
     });
     // ##############################近期战绩#########################################
     ajaxData.HnearVs(team1Id, 10, function (data) {

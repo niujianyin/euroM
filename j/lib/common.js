@@ -24,8 +24,7 @@ function jsonp(json) {
         json.complete && json.complete();
         oHead.removeChild(oS);
         window[fnName] = null ;
-    }
-    ;
+    };
     json.data[json.callback] = fnName;
     var arr = [];
     for (var i in json.data) {
@@ -71,7 +70,7 @@ function jsonp(json) {
     $('.js-login').addClass('js-login-r');
     $('.loginout').show();
     setWbInfo2();
-    $(".js-login").attr("href", "http://ai.lottery.sina.com.cn/uc/m/myorder_m.shtml");
+    $(".js-login").attr("href", "http://ai.lottery.sina.com.cn/uc/m/myorder_m.shtml?from=euro");
   }
 
   $('.js-login-r').on("click", function() {
@@ -81,7 +80,7 @@ function jsonp(json) {
       $('.js-login').addClass('js-login-r');
       $('.loginout').show();
       setWbInfo2();
-      $(".js-login").attr("href", "http://ai.lottery.sina.com.cn/uc/m/myorder_m.shtml");
+      $(".js-login").attr("href", "http://ai.lottery.sina.com.cn/uc/m/myorder_m.shtml?from=euro");
       //假如需要登录跳转订单页面
       window.location.href = util.INTERFACE_USER;
       return false;
@@ -108,7 +107,7 @@ function setWbInfo2() {
     // 拿到购买数据
 
     // 登录成功之后  验证是否已经购买过比赛。  需要测试
-    if(window.match_num){
+    if(window.match_num && (window.curpagename!='mtop')){
       for(var i=0; i<match_num; i++){
         $("#smart_box_0"+i).show();
         gsmart.controller(i);
@@ -143,7 +142,7 @@ function setWbInfo2() {
         setSinaWbCookie(ckName, rs.data.uname, ckDomain, 0);
         setSinaWbCookie(ckNameId, rs.data.uid, ckDomain, 0);
         // 拿到购买数据
-        if(window.match_num){
+        if(window.match_num && (window.curpagename!='mtop')){
           for(var i=0; i<match_num; i++){
             $("#smart_box_0"+i).show();
             gsmart.controller(i);
@@ -1015,7 +1014,8 @@ function render_smart(data, isShow){
   var gameType = data.gameType;
   var rdata = data.data;
   var idx = $("#m_match_list").find(".selected").data("idx");
-  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx"); }
+  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx") || 0; }
+
   var cdata = match_data.data[idx];
   if(rdata.hostWinPro == ''){
     cdata.per1 = '';
@@ -1047,7 +1047,7 @@ function render_smart(data, isShow){
     cdata.pw = per3 +'%';
   }
   // render 显示盘口分数和比分条
-  html = template('smart_match_pre_'+gameType+'_haspay_tmp', {data: cdata});
+  var html = template('smart_match_pre_'+gameType+'_haspay_tmp', {data: cdata});
   $('#smart_'+matchId)[0].innerHTML = html;
 }
 // 渲染预测render_smart_in 赛中
@@ -1092,7 +1092,7 @@ function render_smart_in(data, isShow){
   }
 
   var idx = $("#m_match_list").find(".selected").data("idx");
-  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx");}
+  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx") || 0; }
   var cdata = match_data.data[idx];
   cdata.per1 = per1 +'%';
   cdata.per2 = per2 +'%';
@@ -1105,7 +1105,7 @@ function render_smart_in(data, isShow){
     cdata.pw = per3 +'%';
   }
   // render 显示盘口分数和比分条
-  html = template('smart_match_in_'+gameType+'_tmp', {data: cdata});
+  var html = template('smart_match_in_'+gameType+'_tmp', {data: cdata});
   $('#smart_'+matchId)[0].innerHTML = html;
 } 
 // 渲染预测render_smart_end 赛后
@@ -1162,7 +1162,7 @@ function render_smart_end(data, isShow){
   }
 
   var idx = $("#m_match_list").find(".selected").data("idx");
-  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx");}
+  if(isShow || !idx){ idx = $('#smart_'+matchId).data("idx") || 0; }
   var cdata = match_data.data[idx];
   cdata.per1 = per1 +'%';
   cdata.per2 = per2 +'%';
@@ -1178,7 +1178,7 @@ function render_smart_end(data, isShow){
     cdata.pw = per3 +'%';
   }
   // render 显示盘口分数和比分条
-  html = template('smart_match_end_'+gameType+'_tmp', {data: cdata});
+  var html = template('smart_match_end_'+gameType+'_tmp', {data: cdata});
   $('#smart_'+matchId)[0].innerHTML = html;
 }
 // 比分条模板

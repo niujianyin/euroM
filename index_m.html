@@ -214,7 +214,7 @@
       </script>
     </section>
     <!-- 微博指数 -->
-    <section class="m_module none">
+    <section class="m_module" style="display:none">
       <div class="m_mod_head">
         <div class="m_mod_tit">微博指数</div>
       </div>
@@ -228,13 +228,46 @@
       </div>
     </section>
     <!-- 新浪微博 -->
-    <section class="m_module none">
+    <section class="m_module " style="display:none">
       <div class="m_mod_head">
         <div class="m_mod_tit">新浪微博</div>
       </div>
+<!--
       <div class="m_mod_main" style="height: 100px; text-align: center; line-height: 100px;">
         新浪微博占位
       </div>
+-->
+      <div class="weibo_container">
+				<div class="weibo_blockBox">
+				<script id="teml_weibo" type="text/html">
+				{{each data as value index}}
+					<div class="weiboBlock">
+						<div class="weiboContentBox">
+							<div class="weiboTitBox clearfix">
+								<img src="{{value.thumbnail_pic}}" alt="" class="weiboShow">
+								<div class="weibo_headMain clearfix">
+									<div class="weibo_userName">{{value.userName}}</div>
+									<div class="weibo_btn_follow">
+										<a href=""><img src="./i/btn_weibofllow.png" alt=""></a>
+									</div>
+									<div class="weibo_time"><br/>{{value.dt | weibo_distanse}}</div>
+								</div>
+							</div>
+							<div class="weibo_content">{{value.content}}</div>
+						</div>
+						<div class="weiboBtnBox clearfix">
+							<a href="{{value.weiboUrl}}" class="icon_weiboshare"><img src="i/icon_weiboshare.png" alt="">分享</a>
+							<a href="{{value.weiboUrl}}" class="icon_weibosay"><img src="i/icon_weibosay.png" alt="">评论</a>
+							<a href="{{value.weiboUrl}}" class="icon_weibogood"><img src="i/icon_weibogood.png" alt="">点赞</a>
+						</div>
+					</div>
+					{{/each}}
+					</script>
+				</div>
+			</div>
+			<div class="weibo_more">
+				展开更多<img src="./i/icon_weibomore.png" alt="">
+			</div>
     </section>
   </div>
 
@@ -245,7 +278,7 @@
   
   <link rel="import" href="h/footer.html?__inline">
   <script src="./j/lib/jquery-2.2.4.min.js"></script>
-  <script type="text/javascript" src="http://i.sso.sina.com.cn/js/ssologin.js"></script>
+  <!-- // <script type="text/javascript" src="http://i.sso.sina.com.cn/js/ssologin.js"></script> -->
   <script type="text/javascript" src="http://i.sso.sina.com.cn/js/outlogin_layer_mobile.js" charset="utf-8"></script>
   <script src="./j/lib/common.js"></script>
 

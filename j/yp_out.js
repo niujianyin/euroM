@@ -54,10 +54,14 @@ function jsonp(json) {
  */
 // var tapclick = 'ontouchstart' in window ? "tap" : "click";
 ;(function(win, doc) {
-  util.INTERFACE_USER = 'http://euro.sina.cn/lottery/yp.html';
+  // util.INTERFACE_USER = 'http://sports.sina.com.cn/euro2016/lottery/yp.html';
+    util.INTERFACE_USER = 'http://euro.sina.cn/euro2016/lottery/wap_test_yp_out.html';
+
   util.INTERFACE_HOME = 'http://euro.sina.cn/lottery/';
 
-  $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Flottery%2Fyp.html&amp;revalid=1");
+  $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1");
+    // $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Fsports.sina.com.cn%2euro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1");
+
   $(".loginout").attr("href", "http://passport.sina.cn/sso/logout?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Flottery%2F");
   var isLogin = window.checkLogin();
   // console.log('isLogin:' + isLogin);
@@ -89,7 +93,9 @@ function jsonp(json) {
 
 
 function middleLogin(msg) {
-  var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Flottery%2Fyp.html&amp;revalid=1";
+  var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1";
+  // var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Fsports.sina.com.cn%2euro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1";
+  
   windowOpen(url,"_self");
 }
 
@@ -398,12 +404,14 @@ util.storage = (function(doc, win){
   }
 })(document, window);
 
+
 /**
  *支付模块
  */
 // 3种玩法 玩法类型:z_sx(上下盘) z_spf(胜平负) z_dx(大小球)  默认z_sx
+// 转发到用户中心注册页面
 function registerForm(wbId, nick, wbType) {
-  var actionUrl = 'http://ai.lottery.sina.com.cn//uc/m/phoneBind_m.shtml';
+ var actionUrl = 'http://ai.lottery.sina.com.cn//uc/m/phoneBind_m.shtml';
   var turnForm = document.createElement("form");
   //一定要加入到body中！！
   document.body.appendChild(turnForm);
@@ -434,6 +442,9 @@ function registerForm(wbId, nick, wbType) {
   turnForm.submit();
   document.body.removeChild(turnForm);
 }
+
+
+
 // 用户id nba_-param_sm
 var euro_memberid = '';
 var euro_memberid = '';
@@ -449,15 +460,16 @@ util.money = {};
 util.yppay = {
   getwbid: function(){
     //判断登录状态
-    var isLogin = window.checkLogin();
+    var isLogin = checkLogin();
     if(!isLogin){
       return false;
     } else {
-      var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
+       var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
       var uId = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME_UID');
       euro_wbId = util.wbId || uId; 
       return euro_wbId;
-    }
+      }
+     
   },
   checkwbid: function(){
     // 再次判断一次wbId
@@ -488,7 +500,11 @@ util.yppay = {
     var gameType = edata.gameType;
     var packType = edata.packType;
     var teamId = edata.id || '';
+    // if(util.payduing[thirdId + '_' + gameType + '_' + packType]){
+    //   return;
+    // }
 
+    util.payduing[thirdId + '_' + gameType + '_' + packType]= true;
     $.ajax({
       url:'http://ai.lottery.sina.com.cn/zc/order/batch.htm?thirdId='+thirdId+'&gameType='+gameType+'&season=2015&packType='+packType+'&teamId='+teamId,
       dataType:'jsonp',
@@ -516,11 +532,14 @@ util.yppay = {
           $(".popup_money").html('¥'+edata.price+"元");
           popupShow($popup);
         } else if (code == 300) { //未关联注册  
+          util.payduing[thirdId + '_' + gameType + '_' + packType]= false;
           var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
           registerForm(thirdId, nickName, 1); //转发到用户中心注册页面
         } else {
           util.alert(data.msg);
         }
+        
+        util.payduing[thirdId + '_' + gameType + '_' + packType]= false;
       }
     });
   },
@@ -541,7 +560,10 @@ util.yppay = {
       popupShow($popup_canpay);
       return;
     }
-
+    // if(util.payduing[memberId+'_'+gameType+'_'+packType+'_'+price]){
+    //   return;
+    // }
+    // util.payduing[memberId+'_'+gameType+'_'+packType]= true;
     $.ajax({
       url:'http://ai.lottery.sina.com.cn/zc/order/batchToPay.htm?memberId='+memberId+'&gameType='+gameType+'&season=2015&packType='+packType+'&teamId='+teamId+'&price='+price,
       dataType:'jsonp',
@@ -556,17 +578,18 @@ util.yppay = {
           self.payStepToPaypre();
           popupShow($popup_canpay);
         }else if (code == 300) { //未关联注册  
+          util.payduing[memberId+'_'+gameType+'_'+packType+'_'+price]= false;
           var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
           registerForm(thirdId, nickName, 1); //转发到用户中心注册页面
         } else {
           util.alert(data.msg);
         }
+        // util.payduing[memberId+'_'+gameType+'_'+packType]= false;
       }
     });
   },
   // 打开页面 ./payperpack.htm
   payStepToPaypre: function(){
-    var self = this;
     var self = this;
     euro_edata.memberId = euro_memberid;
     euro_edata.wbId = euro_wbId;
@@ -578,7 +601,7 @@ util.yppay = {
 
     var actionUrl = 'http://odds.sports.sina.com.cn/uefa/prePayPack?info='+info+'&thirdId='+thirdId + '&price='+price;
     window.newWin.location.href = actionUrl;
-    
+    // util.windowOpen(actionUrl,'_blank');
     // var actionUrl = 'http://odds.sports.sina.com.cn/uefa/prePayPack';
     // var payForm = document.createElement("form");
     // //一定要加入到body中！！   
@@ -636,7 +659,7 @@ util.yppay = {
         }else if (code == 300) { //未关联注册  
           var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
           registerForm(thirdId, nickName, 1); //转发到用户中心注册页面
-        } else {
+        }  else {
           util.alert(data.msg);
         }
       }
@@ -665,7 +688,7 @@ util.yppay = {
         var code = data.code;
         if(code == 200){
           location.reload(true);
-        } else if (code == 300) { //未关联注册  
+        }  else if (code == 300) { //未关联注册  
           var nickName = getSinaWbCookieVal('SINA_WB_LOCAL_NICKNAME');
           registerForm(thirdId, nickName, 1); //转发到用户中心注册页面
         } else {
@@ -676,7 +699,7 @@ util.yppay = {
   },
 
   openPage: function(){
-    window.newWin = window.open('http://sports.sina.com.cn/js/euro2016_lottery/pay_mid_page.html','_blank');
+    window.newWin = window.open('http://euro.sina.com.cn/lottery/','_blank');
     util.yppay.payStep2();
   }
 }
@@ -705,7 +728,6 @@ function popupHide() {
   $mask.hide();
   $popup_box.hide();
 }
-
 
 
 var ypObj = {
@@ -749,47 +771,30 @@ var ypObj = {
           }
           // 淘汰赛礼包 out
           if(data.out && data.out.length > 0){
-            self.hasPurchase(__euro.yp_03, data.out);
+            self.hasPurchase(__euro.yp_00, data.out);
           }
-          // 真爱礼包 team
-          // 德国 934
-          if(data["team_934"] && data["team_934"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_934"], '934');
-          }
-          // 法国 933
-          if(data["team_933"] && data["team_933"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_933"], '933');
-          }
-          // 西班牙 944
-          if(data["team_944"] && data["team_944"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_944"], '944');
-          }
-          // 英格兰 922
-          if(data["team_922"] && data["team_922"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_922"], '922');
-          }
-          // 意大利 926
-          if(data["team_926"] && data["team_926"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_926"], '926');
-          }
-          // 比利时 924
-          if(data["team_924"] && data["team_924"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_924"], '924');
-          }
-          // 葡萄牙 939
-          if(data["team_939"] && data["team_939"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_939"], '939');
-          }
-          // 瑞典 821
-          if(data["team_821"] && data["team_821"].length > 0){
-            self.hasPurchaseTeam(__euro.yp_04, data["team_821"], '821');
-          }
+          // 淘汰赛allin
+          if(data.outAll ===true){
+            self.hasPurchase(__euro.yp_00, "outAll");
+        }
         }
         self.render();
       }
     });
   },
   hasPurchase: function(ypdata, yparr){
+    // all in 玩法
+    if(yparr==="outAll"){
+       ypdata[3].status = '3';
+       $.each(ypdata,function(i,v){
+        v.status="3";
+       })
+    }
+    // all in和淘汰赛其他冲突
+    // if(repeat==="outReapeat"){
+    //     ypdata[3].status = '3';
+    // }
+
     for(var i=0,len=yparr.length; i<len; i++){
       if(yparr[i] == 'z_sx'){
         ypdata[0].status = '3';
@@ -797,28 +802,13 @@ var ypObj = {
         ypdata[1].status = '3';
       } else if(yparr[i] == 'z_dx'){
         ypdata[2].status = '3';
+      }else if(yparr[i] == 'z_all'){
+        ypdata[3].status = '3';
       } else {
-        ypdata[0].status = '3';
+        // ypdata[0].status = '3';
       }
     }
-  },
-  hasPurchaseTeam: function(ypdata, yparr, tid){
-    for(var i=0,len=ypdata.length; i<len; i++){
-      if(tid == ypdata[i].id){
-        var ypdatacur = ypdata[i];
-        for(var j=0,l=yparr.length; j<l; j++){
-          if(yparr[j] == 'z_sx'){
-            ypdatacur["z_sx"] = '3';
-          } else if(yparr[j] == 'z_spf'){
-            ypdatacur["z_spf"] = '3';
-          } else if(yparr[j] == 'z_dx'){
-            ypdatacur["z_dx"] = '3';
-          } else {
-            ypdatacur["z_sx"] = '3';
-          }
-        }
-      }
-    }
+ 
   },
   render: function(data){
     var self = this;
@@ -831,84 +821,58 @@ var ypObj = {
     var data_00 = __euro.yp_00;
     var html = template('yp_00_tmp', {data: data_00});
     $("#yp_00")[0].innerHTML = html;
-    var data_01 = __euro.yp_01;
-    var html = template('yp_01_tmp', {data: data_01});
-    $("#yp_01")[0].innerHTML = html;
-    var data_02 = __euro.yp_02;
-    var html = template('yp_02_tmp', {data: data_02});
-    $("#yp_02")[0].innerHTML = html;
-    var data_03 = __euro.yp_03;
-    var html = template('yp_03_tmp', {data: data_03});
-    $("#yp_03")[0].innerHTML = html;
-
-    template.helper("getTeamLi", function(status){
-      return status == 3? 'yp_team_li_has':'yp_team_li';  
-    });
-    template.helper("getTeamBtn", function(status){
-      return status == 1? 'yp_pay yp_team_pay_01':('yp_team_pay_0'+status);  
-    });
-
-    var data_04 = __euro.yp_04;
-    var html = template('yp_04_tmp', {data: data_04});
-    $("#yp_04")[0].innerHTML = html;
-    $("#yp_04").find(".yp_team").each(function(index, el) {
-      $(this).find(".yp_team_li").eq(0).addClass("selected");
-    });
-  },
-  // 开幕礼包
-  render05: function(){
-    var curdate = __curdate || '2016-06-11';
-    $.ajax({  
-      url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=livecast&_sport_a_=dateMatches&LeagueType=9&begin='+curdate+'&end='+curdate,
-      dataType:'jsonp',
-      data: {},
-      cache: true,
-      jsonpCallback:"livecast",
-      type:"get",
-      success: function(data) {
-        var result = data.result;
-        var status = result && result.status;
-        if(status && status.code == "0"){
-          // console.log(result.data);
-          template.helper("flag", function(flag){
-            return 'http://n.sinaimg.cn/sports/0d703a2a/20160513/'+flag+'.png';  
-          });
-          template.helper("yp05Btn", function(idx){
-            return 'yp_05_link0' + __euro.yp_05[idx].status;  
-          });
-          var html = template('yp_05_tmp', {data: result.data});
-          $("#yp_05_main")[0].innerHTML = html;
-        } else {
-          util.log(result.status && result.status.msg);
-        }
-      }
-    });
+    // 先判断是否显示全赛事礼包 1为显示???
+    if(__euro.allIsShow == '1'){
+      $("#yp_01").show();
+      var data_01 = __euro.yp_01;
+      var html = template('yp_01_tmp', {data: data_01});
+      $("#yp_01")[0].innerHTML = html;
+    } else {
+      $("#yp_01").hide();
+    }
+    // 先判断是否显示小组赛礼包 1为显示???
+    if(__euro.groupIsShow == '1'){
+      $("#yp_02").show();
+      var data_02 = __euro.yp_02;
+      var html = template('yp_02_tmp', {data: data_02});
+      $("#yp_02")[0].innerHTML = html;
+    } else {
+      $("#yp_02").hide();
+    }
+    // 按钮颜色
+  $(".yp_msg").each(function(){
+      var yp_msgText=$(this).text();
+      if(yp_msgText!=='领取'){
+        $(this).addClass('yp_msg1');
+  }
+  });
+    function playCount(){
+    var outTime=new Date(outdate).getTime();
+    var lastTime=outTime-$.now();
+   var lastHour=0;
+    if(lastTime&&lastTime>=0){
+    lastHour=Math.floor(lastTime/1000/60/60);
+    $(".yp_countNum").text(lastHour);
+  }else{
+    $(".yp_countNum").parents('.ypbox').hide();
+  }
+  }
+  playCount();
   },
   bindEvent: function(){
-    $(document).on("click",".yp_pay", function(){
+    $("body").on("click",".yp_pay", function(){
       var $box = $(this).closest('.ypbox');
       var obj = $box.data("box");
       var idx = $(this).data("idx");
       euro_edata = __euro[obj][idx];
-      if(obj == 'yp_04'){
-        euro_edata.gameType = $(this).closest('.yp_team').find('.selected').data("game");
-      }
       //判断登录状态      
-      var isLogin = window.checkLogin();
+      var isLogin = checkLogin();
       if(!isLogin){
         middleLogin();
       }else{
         util.yppay.payStep1();
       }
     });
-
-    // team
-    $("#yp_04").on("click",".yp_team_li",function(){
-      $(this).addClass("selected").siblings(".yp_team_li").removeClass("selected");
-      // var gameType = $(this).data("game");
-      // console.log(gameType);
-    });
-
     window.$mask = $("#mask"); 
     // 所有弹出层容器
     window.$popup_box = $(".popup_box");
@@ -929,7 +893,7 @@ var ypObj = {
 
     //弹出层 支付按钮
     // $(".popup_btn_pay").click(function() {
-    //   // 先验证是否存在订单号
+      // 先验证是否存在订单号
     //   util.yppay.payStep2();
     // });
 
@@ -950,6 +914,11 @@ var ypObj = {
       // 支付是否成功验证
       util.yppay.payStep5();
     });
+    $(".yp_footer_btn").one('click', function(event) {
+    $(".yp_footeOther").slideDown();
+  });
+
+  // setInterval(playCount,1000*60*60);
   },
   init: function(){
     var self = this;
@@ -959,7 +928,10 @@ var ypObj = {
       self.render();
     }
     self.bindEvent();
-    self.render05();
   }
 };
 ypObj.init();
+
+$(function(){
+  console.log(1);
+});

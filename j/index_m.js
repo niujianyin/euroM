@@ -2,8 +2,14 @@ __inline('./lib/bootstrap-datepicker.js');
 __inline('./lib/bootstrap-datepicker.zh-CN.js');
 
 (function(){
+  var $smartTabs = $(".m_smart_match");
+  if($smartTabs.length > 0){
+    $smartTabs.after('<div id="smart_loading">\
+      <div id="smart_loading_txt">比赛推荐加载中</div>\
+    </div>');
+  }
+
 	window.__curdate = util.getQueryString("curdate") || __curdate;
-  
   window.teamRecentMatches0 = function(){};
   window.teamRecentMatches_host0 = function(){};
   window.teamRecentMatches_guest0 = function(){};
@@ -38,6 +44,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
   
   var curdate = __curdate || util.dateFormatFmt( new Date(), "yyyy-MM-dd");
   window.match_num=0;
+  window.curpagename = 'mtop';
   window.match_data={
     a1:{},
     a2:{},
@@ -81,6 +88,13 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
      */
     smart_match: function(idx){
       var self = this;
+      var hasMatchTmp = $(".smart_match").find('#smart_match_tmp').length;
+      if(hasMatchTmp > 0){
+
+      } else {
+        $(".smart_match").html('');
+      }
+      $("#smart_loading").show();
       var cdata = match_data.data[idx];
       cdata.idx = idx;
       // if( cdata.odds ){
@@ -147,6 +161,10 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       var gameType = $("#nav").find('.selected').data("gametype");
       if(!gameType){ return;}
       $(".smart_mc").attr("id","smart_"+matchId);
+
+      var $container = $("#smart_"+matchId);
+      $container.html('<div id="smart_loading_mc"></div>');
+
       var url = '';
       // var odds_id = '3453592'||cdata.odds_id;
       var odds_id = cdata.odds_id;
@@ -209,7 +227,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       var $container = $("#smart_"+matchId);
       var gameType = $("#nav").find('.selected').data("gametype");
       $.ajax({
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=football&_sport_s_=opta&_sport_a_=getMatchHighSpeed&id='+matchId,
+        url:'http://odds.sports.sina.com.cn/fbmatch/getMatchHighSpeed?id='+matchId+'&format=json',
         dataType:'jsonp',
         data: {},
         cache: true,
@@ -219,6 +237,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
           var result = data.result;
           var status = result && result.status;
           if(status && status.code === 0){
+            $("#smart_loading").hide();
             var rdata = result.data;
             util.log(rdata);
             // "status": 3 比赛标准状态：1.未赛、2.赛中、3.结束，详见中文名
@@ -274,8 +293,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
                     cdata.om = data.result.data;
                     cdata.matchId = matchId;
                     cdata.gameType = gameType;
-                    cdata.hscore = rdata.Score1;
-                    cdata.gscore = rdata.Score2;
+                    cdata.hscore = rdata.home_score;
+                    cdata.gscore = rdata.away_score;
                     // render_smart_in
                     render_smart_in(cdata);
                     setTimeout(function(){
@@ -286,8 +305,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
               } else {
                 cdata.matchId = matchId;
                 cdata.gameType = gameType;
-                cdata.hscore = rdata.Score1;
-                cdata.gscore = rdata.Score2;
+                cdata.hscore = rdata.home_score;
+                cdata.gscore = rdata.away_score;
                 // render_smart_in
                 render_smart_in(cdata);
                 setTimeout(function(){
@@ -334,8 +353,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
                   cdata.om = data.result.data;
                   cdata.matchId = matchId;
                   cdata.gameType = gameType;
-                  cdata.hscore = rdata.Score1;
-                  cdata.gscore = rdata.Score2;
+                  cdata.hscore = rdata.home_score;
+                  cdata.gscore = rdata.away_score;
                   // render_smart_in
                   render_smart_end(cdata);
                 }
@@ -987,6 +1006,80 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       };
       myChart.setOption(option, true);
     },
+		//		微博模块
+		getWeibo: function (idx) {
+			var dataUrl = "http://odds.sports.sina.com.cn/weibo/weiboMatch?id=139183&format=json";
+			$.ajax({
+					url: dataUrl,
+					dataType: 'jsonp',
+					data: {},
+					cache: true,
+					jsonpCallback: "getWeibo" + idx,
+					type: "get",
+				})
+				.done(function (data) {
+					if (!!data.result.status && data.result.status.code === 0) {
+						var weiboArry = [];
+						var weiboData = data.result.data;
+						$.each(data.result.data, function (i, v) {
+							weiboArry.push(v.uid);
+						});
+						var urlArry = weiboArry.join(",");
+						var getAllUrl = "http://api.sina.com.cn/weibo/wb/user_timeline.json?count=1&feature=1&retcode=0&uid=" + urlArry;
+						$.ajax({
+								url: getAllUrl,
+								dataType: 'jsonp',
+								data: {},
+								cache: true,
+								jsonpCallback: "getWeiboAll" + idx,
+								type: "get",
+							})
+							.done(function (data1) {
+								var temData=[];
+                $.each(data.result.data, function (i, arr) {
+									if(!!data1.result.data[arr.uid]){
+										arr.thumbnail_pic = data1.result.data[arr.uid][0].user.profile_image_url;
+                  	arr.userName=data1.result.data[arr.uid][0].user.screen_name;
+										temData.push(arr);
+									}
+										//若是通过微博id无法获取用户信息将不显示微博 
+								});
+								data.result.data=temData;
+								template.helper("weibo_distanse", function (dt) {
+									var strDate = $.now() + "";
+									var dH = 0,
+										dD = 0,
+										dM = 0;
+									var minDate = strDate.slice(0, -3) - 0;
+									var distanse = minDate - dt;
+									var helpHtml = "";
+									if (distanse <= 86400 && distanse > 3600) {
+										dH = (distanse - 0) / 3600;
+										helpHtml = parseInt(dH) + "小时前";
+									} else if (distanse <= 3600 && distanse > 60) {
+										dM = (distanse - 0) / 60;
+										helpHtml = parseInt(dH) + "分钟前";
+									} else if (distanse >= 86400) {
+										dH = (distanse - 0) / 86400;
+										helpHtml = parseInt(dH) + "天前";
+									} else if (distanse < 60) {
+										helpHtml = "刚刚";
+									}
+									return helpHtml;
+								});
+								var html = template('teml_weibo', data.result);
+								$(".weibo_blockBox")[0].innerHTML = html;
+								$('.weiboBlock').hide().first().show();
+							})
+							.fail(function () {
+								console.log("error");
+							});
+					}
+				})
+				.fail(function () {
+					console.log("error");
+				})
+		},
     // 专家预测
     getdata_forecast: function(idx){
       var self = this;
@@ -1084,7 +1177,7 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       self.getdata_a2(idx);
       self.getdata_a3(idx);
       self.getdata_a4(idx);
-      
+      // self.getWeibo(idx);
       // self.getdata_a5(idx);
       self.getdata_forecast(idx);
     }
@@ -1152,9 +1245,16 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
 			});
 
     	// 单场比赛
+      var disArr = [0],dis=0;
+      $("#m_match_list").find(".m_sm_item").each(function(i,item){
+        dis+= $(item).width()+20;
+        disArr.push(dis);
+      }) 
+      // console.log(disArr);
     	$("#m_match_list").on("click",".m_sm_item",function(){
     		$(this).addClass("selected").siblings(".m_sm_item").removeClass("selected");
     		var idx = $(this).data("idx");
+        $(".m_sm").scrollLeft(disArr[idx]);
     		// 渲染图表
     		smart.controller(idx);
         if(util.debug){
@@ -1297,4 +1397,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
   $("#scrollTop").on("click",function(){
     window.scrollTo(0,0)
   });
+	$('.weibo_more').on('click', function(){
+		$('.weiboBlock').show();
+		$(this).hide();
+	});
 })();

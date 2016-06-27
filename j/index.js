@@ -196,7 +196,7 @@
       var $container = $("#smart_"+matchId);
       var gameType = 'z_sx';
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=football&_sport_s_=opta&_sport_a_=getMatchHighSpeed&id='+matchId,
+        url:'http://odds.sports.sina.com.cn/fbmatch/getMatchHighSpeed?id='+matchId+'&format=json',
         dataType:'jsonp',
         data: {},
         cache: true,
@@ -206,6 +206,7 @@
           var result = data.result;
           var status = result && result.status;
           if(status && status.code === 0){
+            $("#smart_loading").hide();
             var rdata = result.data;
             util.log(rdata);
             // "status": 3 比赛标准状态：1.未赛、2.赛中、3.结束，详见中文名
@@ -263,8 +264,8 @@
                     cdata.om = data.result.data;
                     cdata.matchId = matchId;
                     cdata.gameType = gameType;
-                    cdata.hscore = rdata.Score1;
-                    cdata.gscore = rdata.Score2;
+                    cdata.hscore = rdata.home_score;
+                    cdata.gscore = rdata.away_score;
                     // render_smart_in
                     render_smart_in(cdata,true);
                     setTimeout(function(){
@@ -275,8 +276,8 @@
               } else {
                 cdata.matchId = matchId;
                 cdata.gameType = gameType;
-                cdata.hscore = rdata.Score1;
-                cdata.gscore = rdata.Score2;
+                cdata.hscore = rdata.home_score;
+                cdata.gscore = rdata.away_score;
                 // render_smart_in
                 render_smart_in(cdata,true);
                 setTimeout(function(){
@@ -323,8 +324,8 @@
                   cdata.om = data.result.data;
                   cdata.matchId = matchId;
                   cdata.gameType = gameType;
-                  cdata.hscore = rdata.Score1;
-                  cdata.gscore = rdata.Score2;
+                  cdata.hscore = rdata.home_score;
+                  cdata.gscore = rdata.away_score;
                   // render_smart_in
                   render_smart_end(cdata);
                 }
