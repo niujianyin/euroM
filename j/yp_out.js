@@ -55,11 +55,11 @@ function jsonp(json) {
 // var tapclick = 'ontouchstart' in window ? "tap" : "click";
 ;(function(win, doc) {
   // util.INTERFACE_USER = 'http://sports.sina.com.cn/euro2016/lottery/yp.html';
-    util.INTERFACE_USER = 'http://euro.sina.cn/euro2016/lottery/wap_test_yp_out.html';
+    util.INTERFACE_USER = 'http://euro.sina.cn/lottery/yp.html';
 
   util.INTERFACE_HOME = 'http://euro.sina.cn/lottery/';
 
-  $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1");
+  $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fyp.html&amp;revalid=1");
     // $(".js-login").attr("href", "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Fsports.sina.com.cn%2euro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1");
 
   $(".loginout").attr("href", "http://passport.sina.cn/sso/logout?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Flottery%2F");
@@ -93,7 +93,7 @@ function jsonp(json) {
 
 
 function middleLogin(msg) {
-  var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1";
+  var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Feuro.sina.cn%2Feuro2016%2Flottery%2Fyp.html&amp;revalid=1";
   // var url = "http://passport.sina.cn/signin/signin?entry=wapsso&vt=4&r=http%3A%2F%2Fsports.sina.com.cn%2euro2016%2Flottery%2Fwap_test_yp_out.html&amp;revalid=1";
   
   windowOpen(url,"_self");
@@ -648,7 +648,7 @@ util.yppay = {
       dataType:'jsonp',
       data: {},
       cache: true,
-      jsonpCallback:"dcPay_"+matchId,
+      jsonpCallback:"dcPay_"+orderNo+"_"+memberId+"_"+chargeWay,
       type:"get",
       success: function(data) {
         var code = data.code;
