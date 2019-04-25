@@ -525,7 +525,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       }
       var cdata = match_data.data[idx];
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&team2='+cdata.Team2Id+'&limit=10',
+        url: 'http://api.sports.sina.com.cn/?p=sports&s=sport_client&a=index&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&team2='+cdata.Team2Id+'&limit=10',
+        //url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&team2='+cdata.Team2Id+'&limit=10',
         dataType:'jsonp',
         data: {},
         cache: true,
@@ -625,7 +626,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       }
       var cdata = match_data.data[idx];
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&limit=6',
+        url: 'http://api.sports.sina.com.cn/?p=sports&s=sport_client&a=index&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&limit=6',
+        // url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&limit=6',
         dataType:'jsonp',
         data: {},
         cache: true,
@@ -748,7 +750,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       }
       var cdata = match_data.data[idx];
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team2Id+'&limit=6',
+        url: 'http://api.sports.sina.com.cn/?p=sports&s=sport_client&a=index&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team2Id+'&limit=6',
+        // url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team2Id+'&limit=6',
         dataType:'jsonp',
         data: {},
         cache: true,
@@ -871,7 +874,8 @@ __inline('./lib/bootstrap-datepicker.zh-CN.js');
       }
       var cdata = match_data.data[idx];
       $.ajax({  
-        url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team2Id+'&limit=6',
+        url: 'http://api.sports.sina.com.cn/?p=sports&s=sport_client&a=index&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team2Id+'&limit=6',
+        //url:'http://platform.sina.com.cn/sports_all/client_api?app_key=3207392928&_sport_t_=Odds&_sport_a_=teamRecentMatches&team1='+cdata.Team1Id+'&limit=6',
         dataType:'jsonp',
         data: {},
         cache: true,
