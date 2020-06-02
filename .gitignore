@@ -4,3 +4,4 @@
 #忽略后缀名为.DS_store和.svn的文件夹 
 .DS_store/
 .svn/
+.DS_Store
